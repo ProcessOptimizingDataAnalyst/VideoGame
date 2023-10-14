@@ -12,8 +12,7 @@ class Game:
         self.clock = pygame.time.Clock() 
         
 
-        self.level = Level() #we're creating an instance of a level class in our main game
-
+        self.level = Level()
         # sound
         main_sound = pygame.mixer.Sound('../audio/main.ogg')
         main_sound.set_volume(0.5)
@@ -35,9 +34,9 @@ class Game:
                 pygame.display.update()
                 self.clock.tick(FPS)
 
-if __name__ == '__main__': #This allows us to # 1st check if this is our main file
-    game = Game() # Create an instance of the game class 
-    game.run() # Call the method run of the game class
+if __name__ == '__main__':
+    game = Game()
+    game.run()
 
 
 
