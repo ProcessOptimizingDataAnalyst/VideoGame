@@ -97,7 +97,6 @@ class Item:
         surface.blit(cost_surf,cost_rect)
 
     def display_bar(self,surface,value,max_value,selected):
-
         #drawing setup
         top = self.rect.midtop + pygame.math.Vector2(0,60)
         bottom = self.rect.midbottom - pygame.math.Vector2(0,60)
@@ -108,7 +107,6 @@ class Item:
         relative_number = (value / max_value) * full_height
         value_rect = pygame.Rect(top[0] - 15,bottom[1] - relative_number,30,10)
         
-
         # draw elements
         pygame.draw.line(surface,color,top,bottom,5)
         pygame.draw.rect(surface,color,value_rect)
@@ -123,8 +121,7 @@ class Item:
 
         if player.stats[upgrade_attribute] > player.max_stats[upgrade_attribute]:
             player.stats[upgrade_attribute] = player.max_stats[upgrade_attribute]
-        
-        
+            
     def display(self,surface,selection_num,name,value,max_value,cost):
         if self.index == selection_num:
             pygame.draw.rect(surface,UPGRADE_BG_COLOR_SELECTED,self.rect)
