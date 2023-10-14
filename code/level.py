@@ -40,7 +40,7 @@ class Level:
         self.magic_player = MagicPlayer(self.animation_player)
         
     def create_map(self):                                            
-        layouts = { # layout creation
+        layouts = { 
             'boundary': import_csv_layout('../map/map_FloorBlocks.csv'),
             'grass': import_csv_layout('../map/map_Grass.csv'),
             'object': import_csv_layout('../map/map_LargeObjects.csv'), 
