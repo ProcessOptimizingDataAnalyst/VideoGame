@@ -142,7 +142,7 @@ class Enemy(Entity):
             self.death_sound.play()
             
     def hit_reaction(self):
-        if not self.vulnerable: # this line indicates that the enemy has just been hit
+        if not self.vulnerable:
             self.direction *= -self.resistance
     
     def update(self):
