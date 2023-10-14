@@ -55,13 +55,13 @@ class Enemy(Entity):
         self.attack_sound.set_volume(0.3)
 
     def import_graphics(self,name):
-        self.animations = {'idle':[],'move':[],'attack':[]} # if the player is far away, the object/enemy is upposed to be able; if the player is around, the enemy is supposed to move; and when the player is close to the enemy, itis supposed to attack the player
+        self.animations = {'idle':[],'move':[],'attack':[]}
         main_path = f'../graphics/monsters/{name}/'
         for animation in self.animations.keys():
             self.animations[animation] = import_folder(main_path + animation)
 
     def get_player_distance_direction(self,player):
-        enemy_vec = pygame.math.Vector2(self.rect.center) # 'self.rect.center' allows us to convert the center of the enenmy into a vector
+        enemy_vec = pygame.math.Vector2(self.rect.center)
         player_vec = pygame.math.Vector2(player.rect.center)
         distance = (player_vec - enemy_vec).magnitude()
 
@@ -87,12 +87,12 @@ class Enemy(Entity):
     def actions(self,player):
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
-            self.damage_player(self.attack_damage,self.attack_type) # when we call 'self.damage_player' we call in 'self.attack_damage' and 'self.attack_type'
+            self.damage_player(self.attack_damage,self.attack_type)
             self.attack_sound.play()
         elif self.status == 'move':
-            self.direction = self.get_player_distance_direction(player)[1] # this line enables the enemy to move towards the player when they get closer
+            self.direction = self.get_player_distance_direction(player)[1]
         else:
-            self.direction = pygame.math.Vector2() # this line ensures that the direction oif the ennemy goes back to 0 once the player moved out of the notice radius of the enemy.
+            self.direction = pygame.math.Vector2()
 
     def animate(self):
         animation = self.animations[self.status]
