@@ -1,2 +1,2 @@
 # VideoGame
-Zelda video game franchise inspired video game
+Repository containing video games developped using Python.
