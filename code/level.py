@@ -12,15 +12,15 @@ from particles import AnimationPlayer
 from magic import MagicPlayer
 from upgrade import Upgrade
 
-class Level: #There is no inheritence
-    def __init__(self): #We will create below the 2 sprite groups
+class Level:
+    def __init__(self):
 
         # Get the display surface
-        self.display_surface = pygame.display.get_surface() # This will get us thge display surface anywhere in the code
+        self.display_surface = pygame.display.get_surface()
         self.game_paused = False
         
         # sprite group setup
-        self.visible_sprites = YSortCameraGroup() # we want to change this visible class to a custom made group (this will be the 'YSortCamerGroup' class below)
+        self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
 
         # attack sprites
@@ -29,7 +29,7 @@ class Level: #There is no inheritence
         self.attackable_sprites = pygame.sprite.Group()
 
         #Sprite Setup
-        self.create_map()#we're just calling the method below (i.e. "def create_map"
+        self.create_map()
 
         # user interface
         self.ui = UI()
@@ -39,33 +39,16 @@ class Level: #There is no inheritence
         self.animation_player = AnimationPlayer()
         self.magic_player = MagicPlayer(self.animation_player)
         
-    def create_map(self): #"def" is called a method + In this method we'll nest couple of photos
-        #!!! LINES PRECEDED BY #W were old lines that was part of 'def create_map'!!!
-        #W for row_index,row in enumerate(WORLD_MAP): #For each row we need to know the index because that'll be the number we'll multiply with the tile size to get the y position that's why we'll be using the enumnerate method to know the index a row is on
-            #W for col_index, col in enumerate(row):
-                #The 2 above lines is going to sipher/browse through every item, every single 'x', ' ', or 'p' inside the WORLD_MAP and give us the x and y positions
-
-                #W x = col_index * TILESIZE
-                #W y = row_index * TILESIZE
-        #def create_map( mehtod allowed us to transform the WORLD_MAP into positions
-                #W if col == 'x': # if the column = x then we want to create a rock
-                    #W Tile((x,y),[self.visible_sprites,self.obstacle_sprites]) #for the above condition to materialize itself we have to import the Tile from the tile.py document as shown at the beginning of this program + This line code is prettu much the result we want to see (apparition of a tile) when the  above if condition is met
-                    # The above line is Tile((pos),groups)
-                    # NB: The Tile (from the 'Tile((x,y),[self.visible_sprites, self.obstacle_sprites])' line) should be in 2 different groups: visible spriyes and obstacle sprite. Eventhough you won't be able to see the
-                    ## difference, later on the player's behavior will be affected when facing the obstacle sprite
-                #W if col == 'p': # this line means if the column = 'p', then we want to place a player
-                    #W self.player = Player((x,y),[self.visible_sprites],self.obstacle_sprites) # we want to create the player
-                                                                        ## We put 'Player((x,y),[self.visible_sprites]) ' in 'self.player' because we'll be using 'self.player' quite a bit + we're placing the
-                                                                        ### player isndide group 'self.obstacle_sprites' just for the collisions
+    def create_map(self):                                            
         layouts = { # layout creation
             'boundary': import_csv_layout('../map/map_FloorBlocks.csv'),
             'grass': import_csv_layout('../map/map_Grass.csv'),
-            'object': import_csv_layout('../map/map_LargeObjects.csv'), # "Objects CSV FILE WAS NOT IN THE MAP FOLDER, SO JUST USED THE 'largeObject' file
+            'object': import_csv_layout('../map/map_LargeObjects.csv'), 
             'entities': import_csv_layout('../map/map_Entities.csv')
         }
         graphics = {
             'grass': import_folder('../graphics/Grass'),
-            'objects': import_folder('../graphics/objects') # 'objects' is the name of the related objects with the the LargeObjects csv file in the graphics folder
+            'objects': import_folder('../graphics/objects') 
         }
         
         for style,layout in layouts.items():
@@ -77,7 +60,6 @@ class Level: #There is no inheritence
                         if style == 'boundary':
                             Tile((x,y),[self.obstacle_sprites],'invisible')
                         if style == 'grass':
-                            #Create grass tile:
                             random_grass_image = choice(graphics['grass'])
                             Tile((x,y),
                                  [self.visible_sprites,self.obstacle_sprites,self.attackable_sprites],
@@ -94,7 +76,7 @@ class Level: #There is no inheritence
                                     self.obstacle_sprites,
                                     self.create_attack,
                                     self.destroy_attack,
-                                    self.create_magic)# the lines in 'self.player' places the player in the middle of the map
+                                    self.create_magic)
                                     
                             else:
                                 if col == '390': monster_name = 'bamboo'
@@ -158,8 +140,8 @@ class Level: #There is no inheritence
 
         self.game_paused =  not self.game_paused
         
-    def run(self): #in the method class we're crearing another method called run which doesn't need any argument beside self
-        self.visible_sprites.custom_draw(self.player)# The previous 'draw(self.display_surface)' line would enable the system to draw all sprites in visible_sprites (i.e. generate  images of sprites). + by adding 'player' in 'self.visible_sprites_custom_draw(self.player)', now we can access the player & get the player position
+    def run(self): 
+        self.visible_sprites.custom_draw(self.player)
         self.ui.display(self.player)
         
         if self.game_paused:
@@ -169,21 +151,20 @@ class Level: #There is no inheritence
             self.visible_sprites.enemy_update(self.player)
             self.player_attack_logic()   
         
-class YSortCameraGroup(pygame.sprite.Group): # This sprite group is going to fucntion as a camera + the 'YSort' means that we're going to sort the sprute by the coordinate, that way we're going to give the player and tile some  overlap
+class YSortCameraGroup(pygame.sprite.Group): 
     def __init__(self):
 
         # general setup
         super().__init__()
         self.display_surface = pygame.display.get_surface()
-        self.half_width = self.display_surface.get_size()[0] // 2 # this code allows us to define the distance we want from the left + we divide by 2 so we can get an integer
-        self.half_height = self.display_surface.get_size()[1] // 2 # this code allows us to define the distance we want from the top + we divide by 2 so we can get an integer
-        self.offset = pygame.math.Vector2()# the values inside 'Vector2()' parenthesis vont decider de l'emplacement du jeux, donc ils peuvent faire en sorte que le map du jeux soit plus a droite/gauche en haut/bas
-
+        self.half_width = self.display_surface.get_size()[0] // 2 
+        self.half_height = self.display_surface.get_size()[1] // 2 
+        self.offset = pygame.math.Vector2()
         #creating the floor
         self.floor_surf = pygame.image.load('../graphics/tilemap/ground.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
         
-    def custom_draw(self,player): # by adding 'player' after 'self', now we can access the player & get the player position
+    def custom_draw(self,player): 
 
         # getting the offset
         self.offset.x = player.rect.centerx - self.half_width
@@ -194,7 +175,7 @@ class YSortCameraGroup(pygame.sprite.Group): # This sprite group is going to fuc
         self.display_surface.blit(self.floor_surf,floor_offset_pos)
         
         #for sprite in self.sprites():
-        for sprite in sorted(self.sprites(),key = lambda sprite: sprite.rect.centery):# the 1st argument 'self.sprite' is a list of what we want to sort + the 'key' is by what kind of metric are we going to sort the sprite
+        for sprite in sorted(self.sprites(),key = lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image,offset_pos)
 
