@@ -4,14 +4,12 @@ from level import Level
 
 class Game:
     def __init__(self): 
-
         # general setup
         pygame.init() 
         self.screen = pygame.display.set_mode((WIDTH,HEIGTH)) 
         pygame.display.set_caption('Zelda Game') 
         self.clock = pygame.time.Clock() 
         
-
         self.level = Level()
         # sound
         main_sound = pygame.mixer.Sound('../audio/main.ogg')
