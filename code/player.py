@@ -136,9 +136,9 @@ class Player(Entity):
             self.direction.y = 0
             if not 'attack' in self.status: 
                 if 'idle' in self.status:
-                    self.status = self.status.replace('_idle','_attack') # override idle
+                    self.status = self.status.replace('_idle','_attack') 
                 else: 
-                    self.status = self.status + '_attack' # this line adds 'attack' to the status
+                    self.status = self.status + '_attack' 
         else:
             if 'attack'  in self.status:
                 self.status = self.status.replace('_attack','')
