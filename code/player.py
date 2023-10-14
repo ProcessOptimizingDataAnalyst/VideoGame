@@ -3,9 +3,8 @@ from settings import *
 from support import import_folder
 from entity import Entity
 
-class Player(Entity): # the player initially inherited from 'pygame.sprite.Sprite' (so this was in the parenthesis), but since we have now the 'move' and 'collision' methods in 'Entity.py', now the player will inherit from this class
-    def __init__(self,pos,groups,obstacle_sprites,create_attack,destroy_attack,create_magic):# In order to have all the collisions (i.e. all the tiles as defined in the 'def create_map(self)' fucntion in the 'level' document)inside
-                                                    ## the player class, we added the 'obstacle_sprites' argument
+class Player(Entity): 
+    def __init__(self,pos,groups,obstacle_sprites,create_attack,destroy_attack,create_magic):
         super().__init__(groups) 
         self.image = pygame.image.load('../graphics/test/player.png').convert_alpha() 
         self.rect = self.image.get_rect(topleft = pos)
@@ -16,15 +15,15 @@ class Player(Entity): # the player initially inherited from 'pygame.sprite.Sprit
         self.status = 'down'
 
         # Movement
-        self.attacking = False # we'll use this to create a timer
-        self.attack_cooldown = 400 # we'll use this to create a timer
-        self.attack_time = None # we'll use this to create a timer
+        self.attacking = False 
+        self.attack_cooldown = 400 
+        self.attack_time = None 
         self.obstacle_sprites = obstacle_sprites
 
         # weapon
         self.create_attack = create_attack
         self.destroy_attack = destroy_attack
-        self.weapon_index = 0 # we'll be changing later on the number 0, to select different weapons
+        self.weapon_index = 0 
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.can_switch_weapon = True
         self.weapon_switch_time = None
@@ -37,7 +36,6 @@ class Player(Entity): # the player initially inherited from 'pygame.sprite.Sprit
         self.can_switch_magic = True
         self.magic_switch_time = None
         
-
         # stats
         self.stats = {'health': 100,'energy':60,'attack': 10,'magic': 4,'speed':5}
         self.max_stats = {'health': 300, 'energy': 140,'attack': 20, 'magic': 10, 'speed': 10}
@@ -68,17 +66,17 @@ class Player(Entity): # the player initially inherited from 'pygame.sprite.Sprit
 
     def input(self):
         if not self.attacking:
-            keys = pygame.key.get_pressed()# This is our keyboard (i.e. up, down, left, right) input
+            keys = pygame.key.get_pressed()
 
             # movement inputs
             if keys[pygame.K_UP]:
-                self.direction.y = -1 # thanks to this line & the one above when we press UP, we move downward
+                self.direction.y = -1 
                 self.status = 'up'
             elif keys[pygame.K_DOWN]:
-                self.direction.y = 1 # thanks to this line & the one above when we press DOWN, we move downward
+                self.direction.y = 1 
                 self.status = 'down'
             else:
-                self.direction.y = 0 # This line means that if we're not pressing UP/DOWN, the player is not moving 
+                self.direction.y = 0  
 
             if keys[pygame.K_RIGHT]:
                 self.direction.x = 1
@@ -129,16 +127,14 @@ class Player(Entity): # the player initially inherited from 'pygame.sprite.Sprit
 
         
     def get_status(self):
-
-        # idle status
-        if self.direction.x == 0 and self.direction.y == 0: # indicates player is not moving
-            if not 'idle' in self.status and not 'attack' in self.status: # indicates player is not in idle AND  not attacking
-                self.status = self.status + '_idle' # this indicates player is in idle
+        if self.direction.x == 0 and self.direction.y == 0: 
+            if not 'idle' in self.status and not 'attack' in self.status: 
+                self.status = self.status + '_idle' 
 
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
-            if not 'attack' in self.status: # this line means that
+            if not 'attack' in self.status: 
                 if 'idle' in self.status:
                     self.status = self.status.replace('_idle','_attack') # override idle
                 else: 
