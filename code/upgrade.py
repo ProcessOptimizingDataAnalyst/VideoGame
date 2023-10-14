@@ -13,8 +13,8 @@ class Upgrade:
         self.font = pygame.font.Font(UI_FONT, UI_FONT_SIZE)
 
         # item creation
-        self.height = self.display_surface.get_size()[1] * 0.8 # we're offsetting the display by using '0.8'
-        self.width = self.display_surface.get_size()[0] // 6 # '6' is the attribute number + 1, so that I have my 5 elements and the 6th one is going to be the pedding between them
+        self.height = self.display_surface.get_size()[1] * 0.8
+        self.width = self.display_surface.get_size()[0] // 6
         self.create_items()
         
         # Selection system
@@ -53,7 +53,7 @@ class Upgrade:
             # horizontal position
             full_width = self.display_surface.get_size()[0]
             increment = full_width // self.attribute_nr
-            left = (item * increment) + (increment - self.width) // 2 # '+ (increment - self.width) // 2' allows us to offset the leements a lottle bit to the left
+            left = (item * increment) + (increment - self.width) // 2
             
             # vertical position
             top = self.display_surface.get_size()[1] * 0.1
@@ -125,8 +125,6 @@ class Item:
             player.stats[upgrade_attribute] = player.max_stats[upgrade_attribute]
         
         
-        
-        
     def display(self,surface,selection_num,name,value,max_value,cost):
         if self.index == selection_num:
             pygame.draw.rect(surface,UPGRADE_BG_COLOR_SELECTED,self.rect)
@@ -139,4 +137,3 @@ class Item:
         self.display_bar(surface,value,max_value,self.index == selection_num)
 
 
-#stopped @ 7:02;17
