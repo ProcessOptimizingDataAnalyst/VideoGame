@@ -28,7 +28,7 @@ class UI:
 
     def show_bar(self,current,max_amount,bg_rect,color):
         # draw bg
-        pygame.draw.rect(self.display_surface,UI_BG_COLOR,bg_rect) # this line allows us to draw the background of the bar
+        pygame.draw.rect(self.display_surface,UI_BG_COLOR,bg_rect)
 
         # converting stats to pixel
         ratio = current / max_amount
@@ -83,4 +83,3 @@ class UI:
         self.weapon_overlay(player.weapon_index,not player.can_switch_weapon)
         self.magic_overlay(player.magic_index,not player.can_switch_magic)
 
-        # stopped @ 4:00:00min
