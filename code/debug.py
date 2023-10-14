@@ -1,4 +1,3 @@
-#This file won't actually influence our game instead it debugs tools; so it's here to give us info about what's going in the game but it's not going to influence the game itself, so you could ignore it entirely if you don't care about it
 import pygame
 pygame.init()
 font = pygame.font.Font(None,30)
